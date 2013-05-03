@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION Format_SPAR_PersonID_Request(
+CREATE OR REPLACE FUNCTION Format_SPAR_PersonID_Query(
 	_KundNr text,
 	_OrgNr text,
 	_SlutAnvandarId text,
