@@ -4,7 +4,8 @@ CREATE OR REPLACE FUNCTION Format_SPAR_Adress_Query(
 	_SlutAnvandarId text,
 	_SlutAnvandarBehorighet text,
 	_SlutAnvandarSekretessRatt text,
-	_UtdelningsadressSokArgument text,
+	_Namn text,
+	_Utdelningsadress text,
 	_PostNr text
 	) RETURNS xml AS $BODY$
 DECLARE
@@ -32,8 +33,12 @@ soap_body :=	xmlelement(
 			xmlelement(
 				name "spako:PersonsokningFraga",
 				xmlelement(
+					name "spako:NamnSokArgument",
+					_Namn
+				),
+				xmlelement(
 					name "spako:UtdelningsadressSokArgument", 
-					_UtdelningsadressSokArgument
+					_Utdelningsadress
 				),
 				xmlelement(
 					name "spako:PostNr", 
