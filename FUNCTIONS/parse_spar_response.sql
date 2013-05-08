@@ -5,7 +5,7 @@ DECLARE
 BEGIN
 
 RETURN xpath(
-	'/soapenv:Envelope/soapenv:Body/spako:PersonsokningSvarsPost/*',
+	'/soapenv:Envelope/soapenv:Body/spain:SPARPersonsokningSvar/spako:PersonsokningSvarsPost/*',
 	_XML,
 	ARRAY[
 		['soapenv', 'http://schemas.xmlsoap.org/soap/envelope/'],
