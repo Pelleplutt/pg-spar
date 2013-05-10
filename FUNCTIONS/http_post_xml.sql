@@ -24,8 +24,8 @@ $ch->setopt(CURLOPT_NOPROGRESS, 0);
 $ch->setopt(CURLOPT_POSTFIELDS, qq#<?xml version="1.0" encoding="UTF-8"?># . $xml);
 $ch->setopt(CURLOPT_SSL_VERIFYPEER, 1);
 $ch->setopt(CURLOPT_SSL_VERIFYHOST, 2);
-$ch->setopt(CURLOPT_SSLCERT, $cert_file); # FIXME 
-$ch->setopt(CURLOPT_SSLCERTTYPE, "PEM");#FIXME 
+$ch->setopt(CURLOPT_SSLCERT, $cert_file);
+$ch->setopt(CURLOPT_SSLCERTTYPE, "PEM");
 
 my $response_body;
 
