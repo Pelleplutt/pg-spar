@@ -16,7 +16,9 @@ my $pg = DBIx::Pg::CallFunction->new($dbh);
 
 my $spar_config = $pg->get_spar_config();
 
-my $personid = '193701308888';
+#my $personid = '193701308888';
+#my $personid = '197904182396'; # History persondetails
+my $personid = '199111029196'; # Hanvisning personnummer
 
 my $spar_query = $pg->format_spar_personid_query({
     _kundnr                    => $spar_config->{kundnr},
@@ -39,7 +41,7 @@ my $spar_response = $pg->http_post_xml({
 warn "spar_response";
 warn Dumper $spar_response;
 
-my $res = $pg->parse_spar_response({
+my $res = $pg->parse_spar_personsokning_response({
     _xml => $spar_response
 });
 
