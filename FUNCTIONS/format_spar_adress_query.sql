@@ -1,60 +1,59 @@
 CREATE OR REPLACE FUNCTION Format_SPAR_Adress_Query(
-	_KundNr text,
-	_OrgNr text,
-	_SlutAnvandarId text,
-	_SlutAnvandarBehorighet text,
-	_SlutAnvandarSekretessRatt text,
-	_Namn text,
-	_Utdelningsadress text,
-	_PostNr text
-	) RETURNS xml AS $BODY$
+    _KundNr text,
+    _OrgNr text,
+    _SlutAnvandarId text,
+    _SlutAnvandarBehorighet text,
+    _SlutAnvandarSekretessRatt text,
+    _Namn text,
+    _Utdelningsadress text,
+    _PostNr text
+) RETURNS xml AS $BODY$
 DECLARE
-	identity xml;
-	soap_body xml;
-	soap_envelope xml;
-
+_Identity xml;
+_SOAPBody xml;
+_SOAPEnvelope xml;
 BEGIN
 
 SELECT
-	*
+    *
 INTO
-	identity
+    _Identity
 FROM
-	Format_SPAR_Identity(_KundNr, _OrgNr, _SlutAnvandarId, _SlutAnvandarBehorighet, _SlutAnvandarSekretessRatt);
+    Format_SPAR_Identity(_KundNr, _OrgNr, _SlutAnvandarId, _SlutAnvandarBehorighet, _SlutAnvandarSekretessRatt);
 
 
-soap_body :=	xmlelement(
-			name "spain:SPARPersonsokningFraga",
-			xmlattributes(
-				'http://skatteverket.se/spar/komponent/1.0' AS "xmlns:spako",
-				'http://skatteverket.se/spar/instans/1.0' AS "xmlns:spain"
-			),
-			identity,
-			xmlelement(
-				name "spako:PersonsokningFraga",
-				xmlelement(
-					name "spako:NamnSokArgument",
-					_Namn
-				),
-				xmlelement(
-					name "spako:UtdelningsadressSokArgument", 
-					_Utdelningsadress
-				),
-				xmlelement(
-					name "spako:PostNr", 
-					_PostNr
-				)
-			)
-		);
+_SOAPBody := xmlelement(
+            name "spain:SPARPersonsokningFraga",
+            xmlattributes(
+                'http://skatteverket.se/spar/komponent/1.0' AS "xmlns:spako",
+                'http://skatteverket.se/spar/instans/1.0' AS "xmlns:spain"
+            ),
+            _Identity,
+            xmlelement(
+                name "spako:PersonsokningFraga",
+                xmlelement(
+                    name "spako:NamnSokArgument",
+                    _Namn
+                ),
+                xmlelement(
+                    name "spako:UtdelningsadressSokArgument", 
+                    _Utdelningsadress
+                ),
+                xmlelement(
+                    name "spako:PostNr", 
+                    _PostNr
+                )
+            )
+        );
 
 SELECT
-	*
+    *
 INTO
-	soap_envelope
+    _SOAPEnvelope
 FROM
-	Format_SPAR_SOAP_Envelope(soap_body);
+    Format_SPAR_SOAP_Envelope(_SOAPBody);
 
-RETURN soap_envelope;
+RETURN _SOAPEnvelope;
 
 END;
 $BODY$ LANGUAGE plpgsql;

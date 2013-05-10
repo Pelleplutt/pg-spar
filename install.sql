@@ -1,3 +1,5 @@
+\set AUTOCOMMIT on
+
 DROP DATABASE spartest;
 CREATE DATABASE spartest;
 
@@ -6,6 +8,7 @@ CREATE DATABASE spartest;
 CREATE LANGUAGE plperlu;
 
 \i TABLES/sparconfig.sql
+\i FUNCTIONS/get_spar_config.sql
 \i FUNCTIONS/http_post_xml.sql
 \i FUNCTIONS/format_spar_soap_envelope.sql
 \i FUNCTIONS/format_spar_identity.sql
