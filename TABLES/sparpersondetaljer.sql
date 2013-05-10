@@ -1,6 +1,7 @@
 CREATE TABLE SPARPersonDetaljer (
-    FysiskPersonId                      text REFERENCES SPARPersonData(FysiskPersonId),
-    DatumFrom                           date NOT NULL,
+    SPARPersonDetaljerID                integer not null default nextval('seqSPARPersonDetaljer'),
+    FysiskPersonId                      text not null,
+    DatumFrom                           date not null,
     DatumTom                            date,
     Aviseringsnamn                      text,
     Fornamn                             text,
@@ -10,8 +11,10 @@ CREATE TABLE SPARPersonDetaljer (
     HanvisningspersonNrByttTill         text,
     HanvisningspersonNrByttFran         text,
     Avregistreringsdatum                text,
-    AvregistreringsorsakKod             character(1),
+    AvregistreringsorsakKod             char(1),
     Fodelsetid                          date,
-    Kon                                 character(1)
+    Kon                                 char(1),
+    PRIMARY KEY (SPARPersonDetaljerID),
+    FOREIGN KEY (FysiskPersonId) REFERENCES SPARPersonData(FysiskPersonId)
 );
 
