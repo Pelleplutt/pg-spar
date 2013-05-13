@@ -77,6 +77,7 @@ FOR _ IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPersonsok
         _xpathbase1 := '/spako:PersonsokningSvarsPost/spako:Adress[' || _cnt1 || ']';
 
         ___.DatumFrom                       := (xpath(_xpathbase1 || '/spako:DatumFrom/text()', _, _NSArray))[1];
+        ___.FysiskPersonId                  := SPARdata.FysiskPersonId;
 
         _DateTmp := (xpath(_xpathbase1 || '/spako:DatumTom/text()', _, _NSArray))[1]; 
         IF _DateTmp IS NOT NULL AND _DateTmp <> '9999-12-31' THEN
@@ -91,7 +92,6 @@ FOR _ IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPersonsok
             ____ := ___;
             ____.AdressTyp                       := 'F';
 
-            ____.FysiskPersonId                  := SPARdata.FysiskPersonId;
             ____.CareOf                          := (xpath(_xpathbase2 || '/spako:CareOf/text()', _, _NSArray))[1];
             ____.Utdelningsadress1               := (xpath(_xpathbase2 || '/spako:Utdelningsadress1/text()', _, _NSArray))[1];
             ____.Utdelningsadress2               := (xpath(_xpathbase2 || '/spako:Utdelningsadress2/text()', _, _NSArray))[1];
@@ -114,7 +114,6 @@ FOR _ IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPersonsok
             ____ := ___;
             ____.AdressTyp                       := 'S';
 
-            ____.FysiskPersonId                  := SPARdata.FysiskPersonId;
             ____.CareOf                          := (xpath(_xpathbase2 || '/spako:CareOf/text()', _, _NSArray))[1];
             ____.Utdelningsadress1               := (xpath(_xpathbase2 || '/spako:Utdelningsadress1/text()', _, _NSArray))[1];
             ____.Utdelningsadress2               := (xpath(_xpathbase2 || '/spako:Utdelningsadress2/text()', _, _NSArray))[1];
@@ -133,7 +132,6 @@ FOR _ IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPersonsok
             ____ := ___;
             ____.AdressTyp                       := 'U';
 
-            ____.FysiskPersonId                  := SPARdata.FysiskPersonId;
             ____.Utdelningsadress1               := (xpath(_xpathbase2 || '/spako:Utdelningsadress1/text()', _, _NSArray))[1];
             ____.Utdelningsadress2               := (xpath(_xpathbase2 || '/spako:Utdelningsadress2/text()', _, _NSArray))[1];
             ____.Utdelningsadress3               := (xpath(_xpathbase2 || '/spako:Utdelningsadress3/text()', _, _NSArray))[1];
@@ -141,6 +139,14 @@ FOR _ IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPersonsok
 
             SPARAdress := array_append(SPARAdress, ____);
         END LOOP;
+
+            -- Handle no adress given
+        IF NOT (xpath_exists(_xpathbase1 || '/spako:Utlandsadress', _, _NSArray) OR 
+                xpath_exists(_xpathbase1 || '/spako:SarskildPostadress', _, _NSArray) OR 
+                xpath_exists(_xpathbase1 || '/spako:Folkbokforingsadress', _, _NSArray)) THEN
+            SPARAdress := array_append(SPARAdress, ___);
+        END IF;
+        ___ := NULL;
     END LOOP;
 
     RETURN NEXT;
