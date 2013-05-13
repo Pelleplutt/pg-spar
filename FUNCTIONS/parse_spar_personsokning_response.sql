@@ -11,10 +11,15 @@ DECLARE
         _ xml;
         __ SPARPersonDetaljer;
         ___ SPARPersonAdress;
+        ____ SPARPersonAdress;
 
-        _dummy xml;
-        _cnt integer;
-        _xpathbase text;
+        _dummy1 xml;
+        _cnt1 integer;
+        _xpathbase1 text;
+
+        _dummy2 xml;
+        _cnt2 integer;
+        _xpathbase2 text;
 BEGIN
 
 _NSArray := ARRAY[
@@ -39,76 +44,103 @@ FOR _ IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPersonsok
         -- definition and the sub-elements are in the "spako" namespace, it seems
         -- impossible to convince xpath to give me the contents of those elements without
         -- croaking. 
-    _cnt := 0;
-    FOR _dummy IN SELECT unnest(xpath('/spako:PersonsokningSvarsPost/spako:Persondetaljer', _, _NSArray)) LOOP
-        _cnt := _cnt + 1;
-        _xpathbase := '/spako:PersonsokningSvarsPost/spako:Persondetaljer[' || _cnt || ']';
+    _cnt1 := 0;
+    FOR _dummy1 IN SELECT unnest(xpath('/spako:PersonsokningSvarsPost/spako:Persondetaljer', _, _NSArray)) LOOP
+        _cnt1 := _cnt1 + 1;
+        _xpathbase1 := '/spako:PersonsokningSvarsPost/spako:Persondetaljer[' || _cnt1 || ']';
 
-        __.DatumFrom                       := (xpath(_xpathbase || '/spako:DatumFrom/text()', _, _NSArray))[1];
-        _DateTmp := (xpath(_xpathbase || '/spako:DatumTom/text()', _, _NSArray))[1]; 
+        __.DatumFrom                       := (xpath(_xpathbase1 || '/spako:DatumFrom/text()', _, _NSArray))[1];
+        _DateTmp := (xpath(_xpathbase1 || '/spako:DatumTom/text()', _, _NSArray))[1]; 
         IF _DateTmp IS NOT NULL AND _DateTmp <> '9999-12-31' THEN
             __.DatumTom                        := _DateTmp;
         END IF;
-        __.Aviseringsnamn                  := (xpath(_xpathbase || '/spako:Aviseringsnamn/text()', _, _NSArray))[1];
-        __.Fornamn                         := (xpath(_xpathbase || '/spako:Fornamn/text()', _, _NSArray))[1];
-        __.Tilltalsnamn                    := (xpath(_xpathbase || '/spako:Tilltalsnamn/text()', _, _NSArray))[1];
-        __.Mellannamn                      := (xpath(_xpathbase || '/spako:Mellannamn/text()', _, _NSArray))[1];
-        __.Efternamn                       := (xpath(_xpathbase || '/spako:Efternamn/text()', _, _NSArray))[1];
-        __.HanvisningspersonNrByttTill     := (xpath(_xpathbase || '/spako:HanvisningsPersonNrByttTill/text()', _, _NSArray))[1];
-        __.HanvisningspersonNrByttFran     := (xpath(_xpathbase || '/spako:HanvisningsPersonNrByttFran/text()', _, _NSArray))[1];
-        __.Avregistreringsdatum            := (xpath(_xpathbase || '/spako:Avregistreringsdatum/text()', _, _NSArray))[1];
-        __.AvregistreringsorsakKod         := (xpath(_xpathbase || '/spako:AvregistreringsorsakKod/text()', _, _NSArray))[1];
-        __.Fodelsetid                      := (xpath(_xpathbase || '/spako:Fodelsetid/text()', _, _NSArray))[1];
-        __.Kon                             := (xpath(_xpathbase || '/spako:Kon/text()', _, _NSArray))[1];
+        __.FysiskPersonId                  := SPARdata.FysiskPersonId;
+        __.Aviseringsnamn                  := (xpath(_xpathbase1 || '/spako:Aviseringsnamn/text()', _, _NSArray))[1];
+        __.Fornamn                         := (xpath(_xpathbase1 || '/spako:Fornamn/text()', _, _NSArray))[1];
+        __.Tilltalsnamn                    := (xpath(_xpathbase1 || '/spako:Tilltalsnamn/text()', _, _NSArray))[1];
+        __.Mellannamn                      := (xpath(_xpathbase1 || '/spako:Mellannamn/text()', _, _NSArray))[1];
+        __.Efternamn                       := (xpath(_xpathbase1 || '/spako:Efternamn/text()', _, _NSArray))[1];
+        __.HanvisningspersonNrByttTill     := (xpath(_xpathbase1 || '/spako:HanvisningsPersonNrByttTill/text()', _, _NSArray))[1];
+        __.HanvisningspersonNrByttFran     := (xpath(_xpathbase1 || '/spako:HanvisningsPersonNrByttFran/text()', _, _NSArray))[1];
+        __.Avregistreringsdatum            := (xpath(_xpathbase1 || '/spako:Avregistreringsdatum/text()', _, _NSArray))[1];
+        __.AvregistreringsorsakKod         := (xpath(_xpathbase1 || '/spako:AvregistreringsorsakKod/text()', _, _NSArray))[1];
+        __.Fodelsetid                      := (xpath(_xpathbase1 || '/spako:Fodelsetid/text()', _, _NSArray))[1];
+        __.Kon                             := (xpath(_xpathbase1 || '/spako:Kon/text()', _, _NSArray))[1];
+
         SPARPerson := array_append(SPARPerson, __);
+        __ := NULL;
     END LOOP;
 
-    _cnt := 0;
-    FOR _dummy IN SELECT unnest(xpath('/spako:PersonsokningSvarsPost/spako:Adress', _, _NSArray)) LOOP
-        _cnt := _cnt + 1;
-        _xpathbase := '/spako:PersonsokningSvarsPost/spako:Adress[' || _cnt || ']';
+    _cnt1 := 0;
+    FOR _dummy1 IN SELECT unnest(xpath('/spako:PersonsokningSvarsPost/spako:Adress', _, _NSArray)) LOOP
+        _cnt1 := _cnt1 + 1;
+        _xpathbase1 := '/spako:PersonsokningSvarsPost/spako:Adress[' || _cnt1 || ']';
 
-        ___.DatumFrom                       := (xpath(_xpathbase || '/spako:DatumFrom/text()', _, _NSArray))[1];
+        ___.DatumFrom                       := (xpath(_xpathbase1 || '/spako:DatumFrom/text()', _, _NSArray))[1];
 
-        _DateTmp := (xpath(_xpathbase || '/spako:DatumTom/text()', _, _NSArray))[1]; 
+        _DateTmp := (xpath(_xpathbase1 || '/spako:DatumTom/text()', _, _NSArray))[1]; 
         IF _DateTmp IS NOT NULL AND _DateTmp <> '9999-12-31' THEN
             ___.DatumTom                        := _DateTmp;
         END IF;
 
-        IF xpath_exists(_xpathbase || '/spako:Folkbokforingsadress', _, _NSArray) THEN
-            ___.AdressTyp                       := 'F';
+        _cnt2 := 0;
+        FOR _dummy2 IN SELECT unnest(xpath(_xpathbase1 || '/spako:Folkbokforingsadress', _, _NSArray)) LOOP
+            _cnt2 := _cnt2 + 1;
+            _xpathbase2 := _xpathbase1 || '/spako:Folkbokforingsadress[' || _cnt2 || ']';
 
-            ___.CareOf                          := (xpath(_xpathbase || '/spako:Folkbokforingsadress/spako:CareOf/text()', _, _NSArray))[1];
-            ___.Utdelningsadress1               := (xpath(_xpathbase || '/spako:Folkbokforingsadress/spako:Utdelningsadress1/text()', _, _NSArray))[1];
-            ___.Utdelningsadress2               := (xpath(_xpathbase || '/spako:Folkbokforingsadress/spako:Utdelningsadress2/text()', _, _NSArray))[1];
-            ___.PostNr                          := (xpath(_xpathbase || '/spako:Folkbokforingsadress/spako:PostNr/text()', _, _NSArray))[1];
-            ___.Postort                         := (xpath(_xpathbase || '/spako:Folkbokforingsadress/spako:Postort/text()', _, _NSArray))[1];
-            ___.Land                            := 'Sverige';
-            ___.FolkbokfordLanKod               := (xpath(_xpathbase || '/spako:Folkbokforingsadress/spako:FolkbokfordLanKod/text()', _, _NSArray))[1];
-            ___.FolkbokfordKommunKod            := (xpath(_xpathbase || '/spako:Folkbokforingsadress/spako:FolkbokfordKommunKod/text()', _, _NSArray))[1];
-            ___.FolkbokfordForsamlingKod        := (xpath(_xpathbase || '/spako:Folkbokforingsadress/spako:FolkbokfordForsamlingKod/text()', _, _NSArray))[1];
-            ___.Folkbokforingsdatum             := (xpath(_xpathbase || '/spako:Folkbokforingsadress/spako:Folkbokforingsdatum/text()', _, _NSArray))[1];
+            ____ := ___;
+            ____.AdressTyp                       := 'F';
 
-        ELSIF xpath_exists(_xpathbase || '/spako:SarskildPostadress', _, _NSArray) THEN
-            ___.AdressTyp                       := 'S';
+            ____.FysiskPersonId                  := SPARdata.FysiskPersonId;
+            ____.CareOf                          := (xpath(_xpathbase2 || '/spako:CareOf/text()', _, _NSArray))[1];
+            ____.Utdelningsadress1               := (xpath(_xpathbase2 || '/spako:Utdelningsadress1/text()', _, _NSArray))[1];
+            ____.Utdelningsadress2               := (xpath(_xpathbase2 || '/spako:Utdelningsadress2/text()', _, _NSArray))[1];
+            ____.PostNr                          := (xpath(_xpathbase2 || '/spako:PostNr/text()', _, _NSArray))[1];
+            ____.Postort                         := (xpath(_xpathbase2 || '/spako:Postort/text()', _, _NSArray))[1];
+            ____.Land                            := 'Sverige';
+            ____.FolkbokfordLanKod               := (xpath(_xpathbase2 || '/spako:FolkbokfordLanKod/text()', _, _NSArray))[1];
+            ____.FolkbokfordKommunKod            := (xpath(_xpathbase2 || '/spako:FolkbokfordKommunKod/text()', _, _NSArray))[1];
+            ____.FolkbokfordForsamlingKod        := (xpath(_xpathbase2 || '/spako:FolkbokfordForsamlingKod/text()', _, _NSArray))[1];
+            ____.Folkbokforingsdatum             := (xpath(_xpathbase2 || '/spako:Folkbokforingsdatum/text()', _, _NSArray))[1];
 
-            ___.CareOf                          := (xpath(_xpathbase || '/spako:SarskildPostadress/spako:CareOf/text()', _, _NSArray))[1];
-            ___.Utdelningsadress1               := (xpath(_xpathbase || '/spako:SarskildPostadress/spako:Utdelningsadress1/text()', _, _NSArray))[1];
-            ___.Utdelningsadress2               := (xpath(_xpathbase || '/spako:SarskildPostadress/spako:Utdelningsadress2/text()', _, _NSArray))[1];
-            ___.PostNr                          := (xpath(_xpathbase || '/spako:SarskildPostadress/spako:PostNr/text()', _, _NSArray))[1];
-            ___.Postort                         := (xpath(_xpathbase || '/spako:SarskildPostadress/spako:Postort/text()', _, _NSArray))[1];
-            ___.Land                            := 'Sverige';
+            SPARAdress := array_append(SPARAdress, ____);
+        END LOOP;
 
-        ELSIF xpath_exists(_xpathbase || '/spako:Utlandsadress', _, _NSArray) THEN
-            ___.AdressTyp                       := 'U';
+        _cnt2 := 0;
+        FOR _dummy2 IN SELECT unnest(xpath(_xpathbase1 || '/spako:SarskildPostadress', _, _NSArray)) LOOP
+            _cnt2 := _cnt2 + 1;
+            _xpathbase2 := _xpathbase1 || '/spako:SarskildPostadress[' || _cnt2 || ']';
 
-            ___.Utdelningsadress1               := (xpath(_xpathbase2 || '/spako:Utlandsadress/spako:Utdelningsadress1/text()', _, _NSArray))[1];
-            ___.Utdelningsadress2               := (xpath(_xpathbase2 || '/spako:Utlandsadress/spako:Utdelningsadress2/text()', _, _NSArray))[1];
-            ___.Utdelningsadress3               := (xpath(_xpathbase2 || '/spako:Utlandsadress/spako:Utdelningsadress3/text()', _, _NSArray))[1];
-            ___.Land                            := (xpath(_xpathbase2 || '/spako:Utlandsadress/spako:Land/text()', _, _NSArray))[1];
-        END IF;
+            ____ := ___;
+            ____.AdressTyp                       := 'S';
 
-        SPARAdress := array_append(SPARAdress, ___);
+            ____.FysiskPersonId                  := SPARdata.FysiskPersonId;
+            ____.CareOf                          := (xpath(_xpathbase2 || '/spako:CareOf/text()', _, _NSArray))[1];
+            ____.Utdelningsadress1               := (xpath(_xpathbase2 || '/spako:Utdelningsadress1/text()', _, _NSArray))[1];
+            ____.Utdelningsadress2               := (xpath(_xpathbase2 || '/spako:Utdelningsadress2/text()', _, _NSArray))[1];
+            ____.PostNr                          := (xpath(_xpathbase2 || '/spako:PostNr/text()', _, _NSArray))[1];
+            ____.Postort                         := (xpath(_xpathbase2 || '/spako:Postort/text()', _, _NSArray))[1];
+            ____.Land                            := 'Sverige';
+
+            SPARAdress := array_append(SPARAdress, ____);
+        END LOOP;
+
+        _cnt2 := 0;
+        FOR _dummy2 IN SELECT unnest(xpath(_xpathbase1 || '/spako:Utlandsadress', _, _NSArray)) LOOP
+            _cnt2 := _cnt2 + 1;
+            _xpathbase2 := _xpathbase1 || '/spako:Utlandsadress[' || _cnt2 || ']';
+
+            ____ := ___;
+            ____.AdressTyp                       := 'U';
+
+            ____.FysiskPersonId                  := SPARdata.FysiskPersonId;
+            ____.Utdelningsadress1               := (xpath(_xpathbase2 || '/spako:Utdelningsadress1/text()', _, _NSArray))[1];
+            ____.Utdelningsadress2               := (xpath(_xpathbase2 || '/spako:Utdelningsadress2/text()', _, _NSArray))[1];
+            ____.Utdelningsadress3               := (xpath(_xpathbase2 || '/spako:Utdelningsadress3/text()', _, _NSArray))[1];
+            ____.Land                            := (xpath(_xpathbase2 || '/spako:Land/text()', _, _NSArray))[1];
+
+            SPARAdress := array_append(SPARAdress, ____);
+        END LOOP;
     END LOOP;
 
     RETURN NEXT;
