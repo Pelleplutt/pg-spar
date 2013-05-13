@@ -20,4 +20,5 @@ CREATE LANGUAGE plperlu;
 \i FUNCTIONS/format_spar_adress_query.sql
 \i FUNCTIONS/format_spar_personid_query.sql
 \i FUNCTIONS/parse_spar_personsokning_response.sql
+\i FUNCTIONS/save_spar_personsokning.sql
 \i populate.sql
