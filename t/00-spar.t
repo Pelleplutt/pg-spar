@@ -244,7 +244,7 @@ foreach my $qdata ( @person_tests ) {
         is($res, undef, "Parse result OK $$qdata{'desc'}");
         is('', '', "Parse result person count $$qdata{'desc'}");
 
-        foreach my $field ( qw(spardata sparperson sparperson) ) {
+        foreach my $field ( qw(spardata sparperson sparadress) ) {
             is('', '', "Query response $field $$qdata{'desc'}");
         }
     }
@@ -252,4 +252,3 @@ foreach my $qdata ( @person_tests ) {
 #    warn "res:";
 #    warn Dumper $res;
 }
-
