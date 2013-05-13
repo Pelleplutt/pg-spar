@@ -43,5 +43,4 @@ RETURN xmlelement(
     )
 );
 END;
-$BODY$ LANGUAGE plpgsql;
-
+$BODY$ LANGUAGE plpgsql STABLE;

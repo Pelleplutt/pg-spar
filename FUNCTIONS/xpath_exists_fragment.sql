@@ -15,4 +15,3 @@ END LOOP;
 RETURN xpath_exists('/xml' || _XPath, _WrappedXML, _NSArray);
 END;
 $BODY$ LANGUAGE plpgsql IMMUTABLE;
-

@@ -49,4 +49,4 @@ FROM
 RETURN _SOAPEnvelope;
 
 END;
-$BODY$ LANGUAGE plpgsql;
+$BODY$ LANGUAGE plpgsql STABLE;
