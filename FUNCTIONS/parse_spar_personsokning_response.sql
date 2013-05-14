@@ -1,38 +1,37 @@
 CREATE OR REPLACE FUNCTION Parse_SPAR_PersonSokning_Response(
-        _XML xml
-) RETURNS text[] AS $BODY$
+    OUT FysiskPersonId text,
+    _XML xml
+) RETURNS SETOF TEXT AS $BODY$
 DECLARE
-        _NSArray text[];
-        _NSNames text[];
-        _DateTmp text;
+    _NSArray text[];
+    _NSNames text[];
+    _DateTmp text;
 
-        _xml1 xml;
-        _xml2 xml;
-        _xml3 xml;
+    _xml1 xml;
+    _xml2 xml;
+    _xml3 xml;
 
-        __ SPARPersonDetaljer;
-        ___ SPARPersonAdress;
-        ____ SPARPersonAdress;
+    __ SPARPersonDetaljer;
+    ___ SPARPersonAdress;
+    ____ SPARPersonAdress;
 
-        _spardata SPARPersonData;
-        _sparadresser SPARPersonAdress[];
-        _sparpersoner SPARPersonDetaljer[];
-
-        _personids text[];
+    _spardata SPARPersonData;
+    _sparadresser SPARPersonAdress[];
+    _sparpersoner SPARPersonDetaljer[];
 BEGIN
 
 _NSArray := ARRAY[
-        ['soapenv', 'http://schemas.xmlsoap.org/soap/envelope/'],
-        ['xsd','http://www.w3.org/2001/XMLSchema'],
-        ['xsi','http://www.w3.org/2001/XMLSchema-instance'],
-        ['spako','http://skatteverket.se/spar/komponent/1.0'],
-        ['spain','http://skatteverket.se/spar/instans/1.0']
-    ];
+    ['soapenv', 'http://schemas.xmlsoap.org/soap/envelope/'],
+    ['xsd','http://www.w3.org/2001/XMLSchema'],
+    ['xsi','http://www.w3.org/2001/XMLSchema-instance'],
+    ['spako','http://skatteverket.se/spar/komponent/1.0'],
+    ['spain','http://skatteverket.se/spar/instans/1.0']
+];
 
 _NSNames := ARRAY[
-        'spako',
-        'ns1'
-    ];
+    'spako',
+    'ns1'
+];
 
 FOR _xml1 IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPersonsokningSvar/spako:PersonsokningSvarsPost', _XML, _NSArray)) LOOP
 
@@ -134,7 +133,8 @@ FOR _xml1 IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPerso
 
     IF _sparpersoner IS NOT NULL THEN
         PERFORM Save_SPAR_PersonSokning(_spardata, _sparadresser, _sparpersoner);
-        _personids := array_append(_personids, _spardata.FysiskPersonId);
+        FysiskPersonId := _spardata.FysiskPersonId;
+        RETURN NEXT;
     END IF;
 
     _spardata := NULL;
@@ -142,7 +142,7 @@ FOR _xml1 IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPerso
     _sparpersoner := NULL;
 END LOOP;
 
-RETURN _personids;
+RETURN;
 
 END;
 $BODY$ LANGUAGE plpgsql;
