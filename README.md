@@ -49,7 +49,7 @@ This will run the tests defined in the documentation for querying a single perso
 Using the functions
 ===================
 
-There are a number of helper functions (that will not be covered here) along with a few main functions to call for processing data. On a high level there are functions for formatting the query to submit, a function for submitting it to SPAR, one for parsing the response and one for saving the data into tables in the database.
+There are a number of helper functions (that will not be covered here) along with a few main functions to call for processing data. On a high level there are functions for formatting the query to submit, a function for submitting it to SPAR, one for parsing the response and saving the data into tables in the database and one for fetching data from the database. All query responses are saved into the database for future use.
 
 
 The following functions are used to build up the query to submit:
@@ -61,20 +61,29 @@ Then use this function to submit the query to SPAR:
 
 - `HTTP_POST_XML`
 
-Then parse the given result using:
+Then parse the given result and save it into the database using:
 
 - `Parse_SPAR_PersonSokning_Response`
 
-... And if you wish save it to the database with:
+It will return an array of personid's as returned from the SPAR system. No id's will be returned unless the query returned any persons.
 
-- `Save_SPAR_PersonSokning`
+To read up data from the tables use:
+
+- `Get_SPAR_PersonData` 
+
 
 - `Get_SPAR_Config`
 
 Simple example:
 
-    $ psql spartest
+    $opsql spartest
     spartest=# SELECT * FROM Parse_SPAR_PersonSokning_Response(HTTP_POST_XML('https://....', Format_SPAR_PersonID_Query('34908', '3458973489', 'Exempelforetag-458923', 'KATx', 'N', '934873459878'), 'spar.crt'));
+    parse_spar_personsokning_response
+    -----------------------------------
+    {934873459878}
+    (1 row)
+
+    spartest=# SELECT * FROM Get_SPAR_PersonData('934873459878');
     -[ RECORD 1 ]----------------------------------------------------------------------------------------------------------------------------------------------
     spardata   | (934873459878,N,2010-02-02,2010-02-02)
     sparadress | {"(,934873459878,F,,2010-02-02,,,\"Gatan142 8\",,11146,STOCKHOLM,Sverige,01,80,04,2003-01-01)"}
