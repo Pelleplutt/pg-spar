@@ -23,4 +23,5 @@ CREATE LANGUAGE plperlu;
 \i FUNCTIONS/save_spar_personsokning.sql
 \i FUNCTIONS/xpath_exists_fragment.sql
 \i FUNCTIONS/xpath_fragment.sql
+\i FUNCTIONS/get_spar_persondata.sql
 \i populate.sql
