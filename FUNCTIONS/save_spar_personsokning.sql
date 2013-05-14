@@ -5,9 +5,6 @@ CREATE OR REPLACE FUNCTION Save_SPAR_PersonSokning(
 ) RETURNS VOID AS $BODY$
 DECLARE
     _i integer;
-    _spa SPARPersonAdress;
-    _spd SPARPersonDetaljer;
-
 BEGIN
 
 UPDATE SPARPersonData SET
@@ -26,23 +23,46 @@ ELSE
 END IF;
 
 FOR _i IN array_lower(SPARAdress, 1) .. array_upper(SPARAdress, 1) LOOP
-    _spa := SPARAdress[_i];
-    SELECT
-        NEXTVAL('seqSPARPersonAdress')
-    INTO
-        _spa.SPARPersonAdressID;
 
-    INSERT INTO SPARPersonAdress VALUES (_spa.*);
+    INSERT INTO SPARPersonAdress VALUES (
+                default,
+                SPARAdress[_i].FysiskPersonId,
+                SPARAdress[_i].AdressTyp,
+                SPARAdress[_i].CareOf,
+                SPARAdress[_i].DatumFrom,
+                SPARAdress[_i].DatumTom,
+                SPARAdress[_i].Utdelningsadress1,
+                SPARAdress[_i].Utdelningsadress2,
+                SPARAdress[_i].Utdelningsadress3,
+                SPARAdress[_i].PostNr,
+                SPARAdress[_i].Postort,
+                SPARAdress[_i].Land,
+                SPARAdress[_i].FolkbokfordLanKod,
+                SPARAdress[_i].FolkbokfordKommunKod,
+                SPARAdress[_i].FolkbokfordForsamlingKod,
+                SPARAdress[_i].Folkbokforingsdatum
+                );
 END LOOP;
 
 FOR _i IN array_lower(SPARPerson, 1) .. array_upper(SPARPerson, 1) LOOP
-    _spd := SPARPerson[_i];
-    SELECT
-        NEXTVAL('seqSPARPersonDetaljer')
-    INTO
-        _spd.SPARPersonDetaljerID;
 
-    INSERT INTO SPARPersonDetaljer VALUES(_spd.*);
+    INSERT INTO SPARPersonDetaljer VALUES(
+                default,
+                SPARPerson[_i].FysiskPersonId,
+                SPARPerson[_i].DatumFrom,
+                SPARPerson[_i].DatumTom,
+                SPARPerson[_i].Aviseringsnamn,
+                SPARPerson[_i].Fornamn,
+                SPARPerson[_i].Tilltalsnamn,
+                SPARPerson[_i].Mellannamn,
+                SPARPerson[_i].Efternamn,
+                SPARPerson[_i].HanvisningspersonNrByttTill,
+                SPARPerson[_i].HanvisningspersonNrByttFran,
+                SPARPerson[_i].Avregistreringsdatum,
+                SPARPerson[_i].AvregistreringsorsakKod,
+                SPARPerson[_i].Fodelsetid,
+                SPARPerson[_i].Kon
+                );
 END LOOP;
 
 
