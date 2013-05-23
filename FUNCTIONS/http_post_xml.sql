@@ -17,6 +17,8 @@ my @headers = (
 
 my $ch = new WWW::Curl::Easy;
 $ch->setopt(CURLOPT_HEADER, 0);
+$ch->setopt(CURLOPT_CONNECTTIMEOUT,10);
+$ch->setopt(CURLOPT_TIMEOUT,10);
 $ch->setopt(CURLOPT_HTTPHEADER, \@headers);
 $ch->setopt(CURLOPT_URL, $url);
 $ch->setopt(CURLOPT_POST, 1);
@@ -42,5 +44,4 @@ if ($retcode == 0) {
 }
 
 return $response_body;
-
 $BODY$ LANGUAGE plperlu;
