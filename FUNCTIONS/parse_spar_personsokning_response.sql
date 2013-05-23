@@ -43,7 +43,7 @@ FOR _xml1 IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPerso
     FOR _xml2 IN SELECT unnest(xpath('/spako:PersonsokningSvarsPost/spako:Persondetaljer', _xml1, _NSArray)) LOOP
 
         __.DatumFrom                       := (xpath_fragment('/spako:Persondetaljer/spako:DatumFrom/text()', _xml2, _NSNames))[1];
-        _DateTmp := (xpath_fragment('/spako:Persondetaljer/spako:DatumTom/text()', _xml2, _NSNames))[1]; 
+        _DateTmp := (xpath_fragment('/spako:Persondetaljer/spako:DatumTom/text()', _xml2, _NSNames))[1];
         IF _DateTmp IS NOT NULL AND _DateTmp <> '9999-12-31' THEN
             __.DatumTom                        := _DateTmp;
         END IF;

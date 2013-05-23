@@ -14,31 +14,31 @@ RETURN xmlelement(
         'http://skatteverket.se/spar/komponent/1.0' AS "xmlns:spako"
     ),
     xmlelement(
-        name "spako:KundNrLeveransMottagare", 
+        name "spako:KundNrLeveransMottagare",
         _KundNr
     ),
     xmlelement(
-        name "spako:KundNrSlutkund", 
+        name "spako:KundNrSlutkund",
         _KundNr
     ),
     xmlelement(
-        name "spako:OrgNrSlutkund", 
+        name "spako:OrgNrSlutkund",
         _OrgNr
     ),
     xmlelement(
-        name "spako:SlutAnvandarId", 
+        name "spako:SlutAnvandarId",
         _SlutAnvandarId
     ),
     xmlelement(
-        name "spako:SlutAnvandarBehorighet", 
+        name "spako:SlutAnvandarBehorighet",
         _SlutAnvandarBehorighet
     ),
     xmlelement(
-        name "spako:SlutAnvandarSekretessRatt", 
+        name "spako:SlutAnvandarSekretessRatt",
         _SlutAnvandarSekretessRatt
     ),
     xmlelement(
-        name "spako:Tidsstampel", 
+        name "spako:Tidsstampel",
         to_char(CURRENT_TIMESTAMP, 'YYYY-MM-DD"T"HH24:MI:SS.MS')
     )
 );

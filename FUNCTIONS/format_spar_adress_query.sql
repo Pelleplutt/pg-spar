@@ -36,11 +36,11 @@ _SOAPBody := xmlelement(
                     _Namn
                 ),
                 xmlelement(
-                    name "spako:UtdelningsadressSokArgument", 
+                    name "spako:UtdelningsadressSokArgument",
                     _Utdelningsadress
                 ),
                 xmlelement(
-                    name "spako:PostNr", 
+                    name "spako:PostNr",
                     _PostNr
                 )
             )

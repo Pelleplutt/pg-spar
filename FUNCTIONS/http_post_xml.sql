@@ -11,7 +11,7 @@ use WWW::Curl::Easy;
 my ($url,$xml,$cert_file) = @_;
 
 my @headers = (
-        'SOAPAction: ""', 
+        'SOAPAction: ""',
         'Content-type: text/xml; charset=utf-8'
         );
 

@@ -30,9 +30,9 @@ _SOAPBody :=    xmlelement(
             xmlelement(
                 name "spako:PersonsokningFraga",
                 xmlelement(
-                    name "spako:PersonId", 
+                    name "spako:PersonId",
                     xmlelement(
-                        name "spako:FysiskPersonId", 
+                        name "spako:FysiskPersonId",
                         _PersonId
                     )
                 )
