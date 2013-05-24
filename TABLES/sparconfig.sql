@@ -4,5 +4,6 @@ CREATE TABLE SparConfig (
     OrgNr                     text not null,
     SlutAnvandarId            text not null,
     SlutAnvandarBehorighet    text not null,
-    SlutAnvandarSekretessRatt text not null
+    SlutAnvandarSekretessRatt text not null,
+    Cert                      text not null
 );
