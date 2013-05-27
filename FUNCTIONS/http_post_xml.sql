@@ -7,6 +7,7 @@ CREATE OR REPLACE FUNCTION HTTP_POST_XML(
 use strict;
 use warnings;
 use WWW::Curl::Easy;
+use utf8;
 
 my ($url,$xml,$cert_file) = @_;
 
@@ -42,6 +43,7 @@ if ($retcode == 0) {
     my $curlerrortext = $ch->strerror($retcode);
     die "ERROR_HTTP_POST_XML CURL_ERROR retcode: $retcode curlerrortext: $curlerrortext";
 }
+utf8::decode($response_body);
 
 return $response_body;
 $BODY$ LANGUAGE plperlu;
