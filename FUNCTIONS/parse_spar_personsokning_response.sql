@@ -90,6 +90,11 @@ FOR _xml1 IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPerso
             ____.FolkbokfordForsamlingKod        := (xpath_fragment('/spako:Folkbokforingsadress/spako:FolkbokfordForsamlingKod/text()', _xml3, _NSNames))[1];
             ____.Folkbokforingsdatum             := (xpath_fragment('/spako:Folkbokforingsadress/spako:Folkbokforingsdatum/text()', _xml3, _NSNames))[1];
 
+            IF ____.Utdelningsadress2 ~* '\s+(LGH|LÄG)\s+\d+$' THEN
+                ____.Lagenhet = regexp_replace(____.Utdelningsadress2, '.*\s+(LGH|LÄG)\s+(\d+)$', '\2');
+                ____.Utdelningsadress2 = regexp_replace(____.Utdelningsadress2, '\s+(LGH|LÄG)\s+[0-9]+$', '');
+            END IF;
+
             _sparadresser := array_append(_sparadresser, ____);
         END LOOP;
 
@@ -104,6 +109,11 @@ FOR _xml1 IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPerso
             ____.PostNr                          := (xpath_fragment('/spako:SarskildPostadress/spako:PostNr/text()', _xml3, _NSNames))[1];
             ____.Postort                         := (xpath_fragment('/spako:SarskildPostadress/spako:Postort/text()', _xml3, _NSNames))[1];
             ____.Land                            := 'Sverige';
+
+            IF ____.Utdelningsadress2 ~* '\s+(LGH|LÄG)\s+\d+$' THEN
+                ____.Lagenhet = regexp_replace(____.Utdelningsadress2, '.*\s+(LGH|LÄG)\s+(\d+)$', '\2');
+                ____.Utdelningsadress2 = regexp_replace(____.Utdelningsadress2, '\s+(LGH|LÄG)\s+[0-9]+$', '');
+            END IF;
 
             _sparadresser := array_append(_sparadresser, ____);
         END LOOP;

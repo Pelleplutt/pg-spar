@@ -34,6 +34,7 @@ FOR _i IN array_lower(SPARAdress, 1) .. array_upper(SPARAdress, 1) LOOP
                 SPARAdress[_i].Utdelningsadress1,
                 SPARAdress[_i].Utdelningsadress2,
                 SPARAdress[_i].Utdelningsadress3,
+                SPARAdress[_i].Lagenhet,
                 SPARAdress[_i].PostNr,
                 SPARAdress[_i].Postort,
                 SPARAdress[_i].Land,

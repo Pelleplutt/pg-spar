@@ -8,6 +8,7 @@ CREATE TABLE SPARPersonAdress (
     Utdelningsadress1                   text,
     Utdelningsadress2                   text,
     Utdelningsadress3                   text,
+    Lagenhet                            text,
     PostNr                              char(5),
     Postort                             text,
     Land                                text,

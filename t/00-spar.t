@@ -23,7 +23,7 @@ my @person_tests = (
         'result' => [ '193701308888' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,193701308888,F,,2010-02-02,,,\\"Gatan142 8\\",,11146,STOCKHOLM,Sverige,01,80,04,2003-01-01\)"}#,
+                'sparadress' => qr#{"\(\d+,193701308888,F,,2010-02-02,,,\\"Gatan142 8\\",,,11146,STOCKHOLM,Sverige,01,80,04,2003-01-01\)"}#,
                 'sparperson' => qr#{"\(\d+,193701308888,2010-02-02,,\\"Efternamn3542, Christina Birgitta\\",\\"Christina Birgitta Ulrika\\",20,Thomeaus,Efternamn3542,,,,,1937-01-30,K\)"}#,
                 'spardata' => qr#\(193701308888,N,2010-02-02,2010-02-02\)#,
             },
@@ -35,7 +35,7 @@ my @person_tests = (
         'result' => [ '192907304766' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,192907304766,F,CO-NAMN,2010-02-02,,\\"HÖGER HUS\\",\\"Gatan218 3, ANDRA HUSET PÅ\\",,11140,STOCKHOLM,Sverige,01,80,01,2000-11-01\)"}#,
+                'sparadress' => qr#{"\(\d+,192907304766,F,CO-NAMN,2010-02-02,,\\"HÖGER HUS\\",\\"Gatan218 3, ANDRA HUSET PÅ\\",,,11140,STOCKHOLM,Sverige,01,80,01,2000-11-01\)"}#,
                 'sparperson' => qr#{"\(\d+,192907304766,2010-02-02,,,\\"Helga Viktoria\\",,,Efternamn2609,,,,,1929-07-30,K\)"}#,
                 'spardata' => qr#\(192907304766,N,2010-02-02,2010-02-02\)#,
             },
@@ -47,7 +47,7 @@ my @person_tests = (
         'result' => [ '196805029268' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,196805029268,F,,2010-02-02,,,\\"Gatan140 11\\",,98131,KIRUNA,Sverige,25,84,01,1986-10-01\)","\(\d+,196805029268,S,CO-NAMN,2010-02-02,,\\"HÖGER HUS\\",\\"Gatan170 2 25 TR LÄG 16\\",,11138,STOCKHOLM,Sverige,,,,\)"}#,
+                'sparadress' => qr#{"\(\d+,196805029268,F,,2010-02-02,,,\\"Gatan140 11\\",,,98131,KIRUNA,Sverige,25,84,01,1986-10-01\)","\(\d+,196805029268,S,CO-NAMN,2010-02-02,,\\"HÖGER HUS\\",\\"Gatan170 2 25 TR\\",,16,11138,STOCKHOLM,Sverige,,,,\)"}#,
                 'sparperson' => qr#{"\(\d+,196805029268,2010-02-02,,,Petra,,,Efternamn2401,,,,,1968-05-02,K\)"}#,
                 'spardata' => qr#\(196805029268,N,2010-02-02,2010-02-02\)#,
             },
@@ -59,7 +59,7 @@ my @person_tests = (
         'result' => [ '194812161596' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,194812161596,F,,2010-02-02,,,\\"Gatan267 2\\",,96191,BODEN,Sverige,25,82,01,1948-12-16\)","\(\d+,194812161596,U,,2010-02-02,,\\"UTLANDSGATAN 111\\",\\"UTLANDOMRÅDE\\",STADEN,,,NORGE,,,,\)"}#,
+                'sparadress' => qr#{"\(\d+,194812161596,F,,2010-02-02,,,\\"Gatan267 2\\",,,96191,BODEN,Sverige,25,82,01,1948-12-16\)","\(\d+,194812161596,U,,2010-02-02,,\\"UTLANDSGATAN 111\\",UTLANDOMRÅDE,STADEN,,,,NORGE,,,,\)"}#,
                 'sparperson' => qr#{"\(\d+,194812161596,2010-02-02,,,\\"Nils Uno\\",,,Efternamn1433,,,,,1948-12-16,M\)"}#,
                 'spardata' => qr#\(194812161596,N,2010-02-02,2010-02-02\)#,
             },
@@ -71,7 +71,7 @@ my @person_tests = (
         'result' => [ '197904182396' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,197904182396,F,,2010-02-02,2010-02-15,,\\"Gatan401 2\\",,13131,NACKA,Sverige,01,82,01,2007-07-04\)","\(\d+,197904182396,F,,2010-02-15,,,\\"Gatan225 13\\",,13131,NACKA,Sverige,01,82,01,2011-02-04\)"}#,
+                'sparadress' => qr#{"\(\d+,197904182396,F,,2010-02-02,2010-02-15,,\\"Gatan401 2\\",,,13131,NACKA,Sverige,01,82,01,2007-07-04\)","\(\d+,197904182396,F,,2010-02-15,,,\\"Gatan225 13\\",,,13131,NACKA,Sverige,01,82,01,2011-02-04\)"}#,
                 'sparperson' => qr#{"\(\d+,197904182396,2010-02-02,2010-02-15,,Kuno,10,,Efternamn1083,,,,,1979-04-18,M\)","\(\d+,197904182396,2010-02-15,,,Kuno,10,,Efternamn2993,,,,,1979-04-18,M\)"}#,
                 'spardata' => qr#\(197904182396,N,2010-02-02,2010-02-15\)#,
             },
@@ -83,7 +83,7 @@ my @person_tests = (
         'result' => [ '199111029196' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,199111029196,F,,2011-05-06,,,\\"Gatan330 3\\",,98134,KIRUNA,Sverige,25,84,02,1991-11-02\)"}#,
+                'sparadress' => qr#{"\(\d+,199111029196,F,,2011-05-06,,,\\"Gatan330 3\\",,,98134,KIRUNA,Sverige,25,84,02,1991-11-02\)"}#,
                 'sparperson' => qr#{"\(\d+,199111029196,2011-05-06,,,\\"Martin Oskar\\",,,Efternamn3227,,199111022399,,,1991-11-02,M\)"}#,
                 'spardata' => qr#\(199111029196,N,2011-05-06,2011-05-06\)#,
             },
@@ -95,7 +95,7 @@ my @person_tests = (
         'result' => [ '199111022399' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,199111022399,F,,2010-02-02,2011-05-02,,\\"Gatan330 3\\",,98134,KIRUNA,Sverige,25,84,02,1991-11-02\)","\(\d+,199111022399,,,2011-05-02,,,,,,,,,,,\)"}#,
+                'sparadress' => qr#{"\(\d+,199111022399,F,,2010-02-02,2011-05-02,,\\"Gatan330 3\\",,,98134,KIRUNA,Sverige,25,84,02,1991-11-02\)","\(\d+,199111022399,,,2011-05-02,,,,,,,,,,,,\)"}#,
                 'sparperson' => qr#{"\(\d+,199111022399,2010-02-02,2011-05-02,,\\"Martin Oskar\\",,,Efternamn3227,,,,,1991-11-02,M\)","\(\d+,199111022399,2011-05-02,,,,,,,199111029196,,,G,1991-11-02,M\)"}#,
                 'spardata' => qr#\(199111022399,N,2010-02-02,2011-05-02\)#,
             },
@@ -107,7 +107,7 @@ my @person_tests = (
         'result' => [ '193604139208' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,193604139208,F,CO-NAMN,2010-02-02,,,\\"Gatan177 2\\",,17890,EKERÖ,Sverige,01,25,04,2002-09-01\)"}#,
+                'sparadress' => qr#{"\(\d+,193604139208,F,CO-NAMN,2010-02-02,,,\\"Gatan177 2\\",,,17890,EKERÖ,Sverige,01,25,04,2002-09-01\)"}#,
                 'sparperson' => qr#{"\(\d+,193604139208,2010-02-02,2011-03-15,,Carina,,,Efternamn1301,,,,,1936-04-13,K\)","\(\d+,193604139208,2011-03-15,,,Carina,,,Efternamn1301,,,2011-02-02,A,1936-04-13,K\)"}#,
                 'spardata' => qr#\(193604139208,N,2010-02-02,2011-03-15\)#,
             },
@@ -162,7 +162,7 @@ my @person_tests = (
         'result' => [ '197806082397' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,197806082397,F,,2010-02-02,,,\\"Gatan366 45 LGH 1104\\",,13241,SALTSJÖ-BOO,Sverige,24,80,04,1979-05-01\)"}#,
+                'sparadress' => qr#{"\(\d+,197806082397,F,,2010-02-02,,,\\"Gatan366 45\\",,1104,13241,SALTSJÖ-BOO,Sverige,24,80,04,1979-05-01\)"}#,
                 'sparperson' => qr#{"\(\d+,197806082397,2010-02-02,,,Jan,,,Efternamn2584,,,,,1978-06-08,M\)"}#,
                 'spardata' => qr#\(197806082397,N,2010-02-02,2010-02-02\)#,
             },
@@ -174,7 +174,7 @@ my @person_tests = (
         'result' => [ '199211629192' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,199211629192,F,,2011-05-06,,,\\"Gatan330 8\\",,98134,KIRUNA,Sverige,25,84,02,1992-11-02\)"}#,
+                'sparadress' => qr#{"\(\d+,199211629192,F,,2011-05-06,,,\\"Gatan330 8\\",,,98134,KIRUNA,Sverige,25,84,02,1992-11-02\)"}#,
                 'sparperson' => qr#{"\(\d+,199211629192,2011-05-06,,,Holger,,,Efternamn2849,,,,,1992-11-02,M\)"}#,
                 'spardata' => qr#\(199211629192,N,2011-05-06,2011-05-06\)#,
             },
@@ -250,7 +250,6 @@ foreach my $qdata ( @person_tests ) {
             my $expected = shift @results;
             foreach my $field ( qw(spardata sparperson sparadress) ) {
                     # FIXME This is strange indeed, where is the root of this?
-                $$rp{$field} = Encode::decode('UTF-8', $$rp{$field});
                 $$rp{$field} = Encode::decode('UTF-8', $$rp{$field});
                 like($$rp{$field}, $$expected{$field}, "Query response $field $$qdata{'desc'}");
             }
