@@ -4,8 +4,10 @@ CREATE OR REPLACE FUNCTION Format_SPAR_Identity(
     _SlutAnvandarId text,
     _SlutAnvandarBehorighet text,
     _SlutAnvandarSekretessRatt text
-) RETURNS xml AS $BODY$
-DECLARE
+) RETURNS xml
+LANGUAGE plpgsql STABLE
+AS $BODY$
+
 BEGIN
 
 RETURN xmlelement(
@@ -43,4 +45,4 @@ RETURN xmlelement(
     )
 );
 END;
-$BODY$ LANGUAGE plpgsql STABLE;
+$BODY$;

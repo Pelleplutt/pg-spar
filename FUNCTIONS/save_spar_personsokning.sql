@@ -2,7 +2,10 @@ CREATE OR REPLACE FUNCTION Save_SPAR_PersonSokning(
         SPARdata SPARPersonData,
         SPARAdress SPARPersonAdress[],
         SPARPerson SPARPersonDetaljer[]
-) RETURNS VOID AS $BODY$
+) RETURNS VOID
+LANGUAGE plpgsql VOLATILE
+AS $BODY$
+
 DECLARE
     _i integer;
 BEGIN
@@ -68,4 +71,4 @@ END LOOP;
 
 
 END;
-$BODY$ LANGUAGE plpgsql;
+$BODY$;

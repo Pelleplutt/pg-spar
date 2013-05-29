@@ -4,8 +4,11 @@ CREATE OR REPLACE FUNCTION Format_SPAR_PersonID_Query(
     _SlutAnvandarId text,
     _SlutAnvandarBehorighet text,
     _SlutAnvandarSekretessRatt text,
-    _PersonID text
-) RETURNS xml AS $BODY$
+    _PersonId text
+) RETURNS xml
+LANGUAGE plpgsql STABLE
+AS $BODY$
+
 DECLARE
 _Identity xml;
 _SOAPBody xml;
@@ -49,4 +52,4 @@ FROM
 RETURN _SOAPEnvelope;
 
 END;
-$BODY$ LANGUAGE plpgsql STABLE;
+$BODY$;

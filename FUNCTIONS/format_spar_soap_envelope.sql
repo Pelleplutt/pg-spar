@@ -1,7 +1,9 @@
 CREATE OR REPLACE FUNCTION Format_SPAR_SOAP_Envelope(
     _SOAPBody xml
-) RETURNS xml AS $BODY$
-DECLARE
+) RETURNS xml
+LANGUAGE plpgsql IMMUTABLE
+AS $BODY$
+
 BEGIN
 
 RETURN xmlelement(
@@ -17,4 +19,4 @@ RETURN xmlelement(
     )
 );
 END;
-$BODY$ LANGUAGE plpgsql IMMUTABLE;
+$BODY$;

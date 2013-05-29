@@ -4,7 +4,10 @@ CREATE OR REPLACE FUNCTION Get_SPAR_PersonData(
         OUT SPARData SPARPersonData,
         OUT SPARAdress SPARPersonAdress[],
         OUT SPARPerson SPARPersonDetaljer[]
-) RETURNS RECORD AS $BODY$
+) RETURNS RECORD
+LANGUAGE plpgsql STABLE
+AS $BODY$
+
 BEGIN
 
 SELECT * INTO STRICT SPARData FROM SPARPersonData WHERE FysiskPersonId = _PersonId;
@@ -14,4 +17,4 @@ IF FOUND THEN
 END IF;
 
 END;
-$BODY$ LANGUAGE plpgsql;
+$BODY$;

@@ -7,7 +7,10 @@ CREATE OR REPLACE FUNCTION Format_SPAR_Adress_Query(
     _Namn text,
     _Utdelningsadress text,
     _PostNr text
-) RETURNS xml AS $BODY$
+) RETURNS xml
+LANGUAGE plpgsql STABLE
+AS $BODY$
+
 DECLARE
 _Identity xml;
 _SOAPBody xml;
@@ -56,4 +59,4 @@ FROM
 RETURN _SOAPEnvelope;
 
 END;
-$BODY$ LANGUAGE plpgsql STABLE;
+$BODY$;

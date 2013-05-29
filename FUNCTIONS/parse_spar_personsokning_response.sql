@@ -1,7 +1,10 @@
 CREATE OR REPLACE FUNCTION Parse_SPAR_PersonSokning_Response(
     OUT FysiskPersonId text,
     _XML xml
-) RETURNS SETOF TEXT AS $BODY$
+) RETURNS SETOF TEXT
+LANGUAGE plpgsql VOLATILE
+AS $BODY$
+
 DECLARE
     _NSArray text[];
     _NSNames text[];
@@ -155,4 +158,4 @@ END LOOP;
 RETURN;
 
 END;
-$BODY$ LANGUAGE plpgsql;
+$BODY$;
