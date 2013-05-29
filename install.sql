@@ -1,6 +1,6 @@
 \set AUTOCOMMIT on
 
-DROP DATABASE spartest;
+DROP DATABASE IF EXISTS spartest;
 CREATE DATABASE spartest;
 
 \c spartest
