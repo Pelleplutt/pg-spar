@@ -4,10 +4,12 @@ use warnings;
 
 use DBI;
 use DBIx::Pg::CallFunction;
-use Test::More;
-use Test::Deep;
-use Data::Dumper;
 use Cwd;
+
+use Test::Deep;
+use Test::Exception;
+use Data::Dumper;
+use Test::More;
 use utf8;
 use Encode;
 
@@ -18,103 +20,103 @@ binmode $builder->todo_output,    ":utf8";
 
 my @person_tests = (
     {
-        'personid' => '193701308888',
+        'personid' => 'SE193701308888',
         'desc' => '193701308888: 3.1. Förnamn, mellannamn, efternamn, aviseringsnamn, tilltalsnamn',
-        'result' => [ '193701308888' ],
+        'result' => [ 'SE193701308888' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,193701308888,F,,2010-02-02,,,\\"Gatan142 8\\",,,11146,STOCKHOLM,Sverige,01,80,04,2003-01-01\)"}#,
-                'sparperson' => qr#{"\(\d+,193701308888,2010-02-02,,\\"Efternamn3542, Christina Birgitta\\",\\"Christina Birgitta Ulrika\\",20,Thomeaus,Efternamn3542,,,,,1937-01-30,K\)"}#,
-                'spardata' => qr#\(193701308888,N,2010-02-02,2010-02-02\)#,
+                'sparadress' => qr#{"\(\d+,SE193701308888,F,,2010-02-02,,,\\"Gatan142 8\\",,,11146,STOCKHOLM,Sverige,01,80,04,2003-01-01\)"}#,
+                'sparperson' => qr#{"\(\d+,SE193701308888,2010-02-02,,\\"Efternamn3542, Christina Birgitta\\",\\"Christina Birgitta Ulrika\\",20,Thomeaus,Efternamn3542,,,,,1937-01-30,K\)"}#,
+                'spardata' => qr#\(SE193701308888,N,2010-02-02,2010-02-02,[\d: .+"-]+\)#,
             },
         ],
     },
     {
-        'personid' => '192907304766',
+        'personid' => 'SE192907304766',
         'desc' => '192907304766: 3.2. Folkbokföringsadress',
-        'result' => [ '192907304766' ],
+        'result' => [ 'SE192907304766' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,192907304766,F,CO-NAMN,2010-02-02,,\\"HÖGER HUS\\",\\"Gatan218 3, ANDRA HUSET PÅ\\",,,11140,STOCKHOLM,Sverige,01,80,01,2000-11-01\)"}#,
-                'sparperson' => qr#{"\(\d+,192907304766,2010-02-02,,,\\"Helga Viktoria\\",,,Efternamn2609,,,,,1929-07-30,K\)"}#,
-                'spardata' => qr#\(192907304766,N,2010-02-02,2010-02-02\)#,
+                'sparadress' => qr#{"\(\d+,SE192907304766,F,CO-NAMN,2010-02-02,,\\"HÖGER HUS\\",\\"Gatan218 3, ANDRA HUSET PÅ\\",,,11140,STOCKHOLM,Sverige,01,80,01,2000-11-01\)"}#,
+                'sparperson' => qr#{"\(\d+,SE192907304766,2010-02-02,,,\\"Helga Viktoria\\",,,Efternamn2609,,,,,1929-07-30,K\)"}#,
+                'spardata' => qr#\(SE192907304766,N,2010-02-02,2010-02-02,[\d: .+"-]+\)#,
             },
         ],
     },
     {
-        'personid' => '196805029268',
+        'personid' => 'SE196805029268',
         'desc' => '196805029268:3.3. Särskild postadress',
-        'result' => [ '196805029268' ],
+        'result' => [ 'SE196805029268' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,196805029268,F,,2010-02-02,,,\\"Gatan140 11\\",,,98131,KIRUNA,Sverige,25,84,01,1986-10-01\)","\(\d+,196805029268,S,CO-NAMN,2010-02-02,,\\"HÖGER HUS\\",\\"Gatan170 2 25 TR\\",,16,11138,STOCKHOLM,Sverige,,,,\)"}#,
-                'sparperson' => qr#{"\(\d+,196805029268,2010-02-02,,,Petra,,,Efternamn2401,,,,,1968-05-02,K\)"}#,
-                'spardata' => qr#\(196805029268,N,2010-02-02,2010-02-02\)#,
+                'sparadress' => qr#{"\(\d+,SE196805029268,F,,2010-02-02,,,\\"Gatan140 11\\",,,98131,KIRUNA,Sverige,25,84,01,1986-10-01\)","\(\d+,SE196805029268,S,CO-NAMN,2010-02-02,,\\"HÖGER HUS\\",\\"Gatan170 2 25 TR\\",,16,11138,STOCKHOLM,Sverige,,,,\)"}#,
+                'sparperson' => qr#{"\(\d+,SE196805029268,2010-02-02,,,Petra,,,Efternamn2401,,,,,1968-05-02,K\)"}#,
+                'spardata' => qr#\(SE196805029268,N,2010-02-02,2010-02-02,[\d: .+"-]+\)#,
             },
         ],
     },
     {
-        'personid' => '194812161596',
+        'personid' => 'SE194812161596',
         'desc' => '194812161596:3.4. Utlandsadress',
-        'result' => [ '194812161596' ],
+        'result' => [ 'SE194812161596' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,194812161596,F,,2010-02-02,,,\\"Gatan267 2\\",,,96191,BODEN,Sverige,25,82,01,1948-12-16\)","\(\d+,194812161596,U,,2010-02-02,,\\"UTLANDSGATAN 111\\",UTLANDOMRÅDE,STADEN,,,,NORGE,,,,\)"}#,
-                'sparperson' => qr#{"\(\d+,194812161596,2010-02-02,,,\\"Nils Uno\\",,,Efternamn1433,,,,,1948-12-16,M\)"}#,
-                'spardata' => qr#\(194812161596,N,2010-02-02,2010-02-02\)#,
+                'sparadress' => qr#{"\(\d+,SE194812161596,F,,2010-02-02,,,\\"Gatan267 2\\",,,96191,BODEN,Sverige,25,82,01,1948-12-16\)","\(\d+,SE194812161596,U,,2010-02-02,,\\"UTLANDSGATAN 111\\",UTLANDOMRÅDE,STADEN,,,,NORGE,,,,\)"}#,
+                'sparperson' => qr#{"\(\d+,SE194812161596,2010-02-02,,,\\"Nils Uno\\",,,Efternamn1433,,,,,1948-12-16,M\)"}#,
+                'spardata' => qr#\(SE194812161596,N,2010-02-02,2010-02-02,[\d: .+"-]+\)#,
             },
         ],
     },
     {
-        'personid' => '197904182396',
+        'personid' => 'SE197904182396',
         'desc' => '197904182396: 3.5. Historik',
-        'result' => [ '197904182396' ],
+        'result' => [ 'SE197904182396' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,197904182396,F,,2010-02-02,2010-02-15,,\\"Gatan401 2\\",,,13131,NACKA,Sverige,01,82,01,2007-07-04\)","\(\d+,197904182396,F,,2010-02-15,,,\\"Gatan225 13\\",,,13131,NACKA,Sverige,01,82,01,2011-02-04\)"}#,
-                'sparperson' => qr#{"\(\d+,197904182396,2010-02-02,2010-02-15,,Kuno,10,,Efternamn1083,,,,,1979-04-18,M\)","\(\d+,197904182396,2010-02-15,,,Kuno,10,,Efternamn2993,,,,,1979-04-18,M\)"}#,
-                'spardata' => qr#\(197904182396,N,2010-02-02,2010-02-15\)#,
+                'sparadress' => qr#{"\(\d+,SE197904182396,F,,2010-02-02,2010-02-15,,\\"Gatan401 2\\",,,13131,NACKA,Sverige,01,82,01,2007-07-04\)","\(\d+,SE197904182396,F,,2010-02-15,,,\\"Gatan225 13\\",,,13131,NACKA,Sverige,01,82,01,2011-02-04\)"}#,
+                'sparperson' => qr#{"\(\d+,SE197904182396,2010-02-02,2010-02-15,,Kuno,10,,Efternamn1083,,,,,1979-04-18,M\)","\(\d+,SE197904182396,2010-02-15,,,Kuno,10,,Efternamn2993,,,,,1979-04-18,M\)"}#,
+                'spardata' => qr#\(SE197904182396,N,2010-02-02,2010-02-15,[\d: .+"-]+\)#,
             },
         ],
     },
     {
-        'personid' => '199111029196',
+        'personid' => 'SE199111029196',
         'desc' => '199111029196: 3.6. Hänvisningspersonnummer, bytt från',
-        'result' => [ '199111029196' ],
+        'result' => [ 'SE199111029196' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,199111029196,F,,2011-05-06,,,\\"Gatan330 3\\",,,98134,KIRUNA,Sverige,25,84,02,1991-11-02\)"}#,
-                'sparperson' => qr#{"\(\d+,199111029196,2011-05-06,,,\\"Martin Oskar\\",,,Efternamn3227,,199111022399,,,1991-11-02,M\)"}#,
-                'spardata' => qr#\(199111029196,N,2011-05-06,2011-05-06\)#,
+                'sparadress' => qr#{"\(\d+,SE199111029196,F,,2011-05-06,,,\\"Gatan330 3\\",,,98134,KIRUNA,Sverige,25,84,02,1991-11-02\)"}#,
+                'sparperson' => qr#{"\(\d+,SE199111029196,2011-05-06,,,\\"Martin Oskar\\",,,Efternamn3227,,SE199111022399,,,1991-11-02,M\)"}#,
+                'spardata' => qr#\(SE199111029196,N,2011-05-06,2011-05-06,[\d: .+"-]+\)#,
             },
         ],
     },
     {
-        'personid' => '199111022399',
+        'personid' => 'SE199111022399',
         'desc' => '199111022399: 3.7. Hänvisningspersonnummer, bytt till',
-        'result' => [ '199111022399' ],
+        'result' => [ 'SE199111022399' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,199111022399,F,,2010-02-02,2011-05-02,,\\"Gatan330 3\\",,,98134,KIRUNA,Sverige,25,84,02,1991-11-02\)","\(\d+,199111022399,,,2011-05-02,,,,,,,,,,,,\)"}#,
-                'sparperson' => qr#{"\(\d+,199111022399,2010-02-02,2011-05-02,,\\"Martin Oskar\\",,,Efternamn3227,,,,,1991-11-02,M\)","\(\d+,199111022399,2011-05-02,,,,,,,199111029196,,,G,1991-11-02,M\)"}#,
-                'spardata' => qr#\(199111022399,N,2010-02-02,2011-05-02\)#,
+                'sparadress' => qr#{"\(\d+,SE199111022399,F,,2010-02-02,2011-05-02,,\\"Gatan330 3\\",,,98134,KIRUNA,Sverige,25,84,02,1991-11-02\)","\(\d+,SE199111022399,,,2011-05-02,,,,,,,,,,,,\)"}#,
+                'sparperson' => qr#{"\(\d+,SE199111022399,2010-02-02,2011-05-02,,\\"Martin Oskar\\",,,Efternamn3227,,,,,1991-11-02,M\)","\(\d+,SE199111022399,2011-05-02,,,,,,,SE199111029196,,,G,1991-11-02,M\)"}#,
+                'spardata' => qr#\(SE199111022399,N,2010-02-02,2011-05-02,[\d: .+"-]+\)#,
             },
         ],
     },
     {
-        'personid' => '193604139208',
+        'personid' => 'SE193604139208',
         'desc' => '193604139208: 3.8. Avregistrerad',
-        'result' => [ '193604139208' ],
+        'result' => [ 'SE193604139208' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,193604139208,F,CO-NAMN,2010-02-02,,,\\"Gatan177 2\\",,,17890,EKERÖ,Sverige,01,25,04,2002-09-01\)"}#,
-                'sparperson' => qr#{"\(\d+,193604139208,2010-02-02,2011-03-15,,Carina,,,Efternamn1301,,,,,1936-04-13,K\)","\(\d+,193604139208,2011-03-15,,,Carina,,,Efternamn1301,,,2011-02-02,A,1936-04-13,K\)"}#,
-                'spardata' => qr#\(193604139208,N,2010-02-02,2011-03-15\)#,
+                'sparadress' => qr#{"\(\d+,SE193604139208,F,CO-NAMN,2010-02-02,,,\\"Gatan177 2\\",,,17890,EKERÖ,Sverige,01,25,04,2002-09-01\)"}#,
+                'sparperson' => qr#{"\(\d+,SE193604139208,2010-02-02,2011-03-15,,Carina,,,Efternamn1301,,,,,1936-04-13,K\)","\(\d+,SE193604139208,2011-03-15,,,Carina,,,Efternamn1301,,,2011-02-02,A,1936-04-13,K\)"}#,
+                'spardata' => qr#\(SE193604139208,N,2010-02-02,2011-03-15,[\d: .+"-]+\)#,
             },
         ],
     },
     {
-        'personid' => '193103249078',
+        'personid' => 'SE193103249078',
         'desc' => '193103249078: 3.9. Ingen träff',
         'result' => undef,
         'result_entries' => undef,
@@ -145,45 +147,48 @@ my @person_tests = (
                     # </env:Envelope>
     },
     {
-        'personid' => '193604139207',
+        'personid' => 'SE193604139207',
         'desc' => '193604139207: 3.10. Felaktigt personnummer \(felaktig kontrollsiffra\)',
         'result' => undef,
         'result_entries' => undef,
     },
     {
-        'personid' => '19360413920',
+        'personid' => 'SE19360413920',
         'desc' => '19360413920: 3.11. Felaktigt personnummer \(fel antal tecken\)',
         'result' => undef,
         'result_entries' => undef,
+        'invalid' => 1,
     },
     {
-        'personid' => '197806082397',
+        'personid' => 'SE197806082397',
         'desc' => '197806082397: 3.12. Lägenhetsnummer',
-        'result' => [ '197806082397' ],
+        'result' => [ 'SE197806082397' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,197806082397,F,,2010-02-02,,,\\"Gatan366 45\\",,1104,13241,SALTSJÖ-BOO,Sverige,24,80,04,1979-05-01\)"}#,
-                'sparperson' => qr#{"\(\d+,197806082397,2010-02-02,,,Jan,,,Efternamn2584,,,,,1978-06-08,M\)"}#,
-                'spardata' => qr#\(197806082397,N,2010-02-02,2010-02-02\)#,
+                'sparadress' => qr#{"\(\d+,SE197806082397,F,,2010-02-02,,,\\"Gatan366 45\\",,1104,13241,SALTSJÖ-BOO,Sverige,24,80,04,1979-05-01\)"}#,
+                'sparperson' => qr#{"\(\d+,SE197806082397,2010-02-02,,,Jan,,,Efternamn2584,,,,,1978-06-08,M\)"}#,
+                'spardata' => qr#\(SE197806082397,N,2010-02-02,2010-02-02,[\d: .+"-]+\)#,
             },
         ],
     },
     {
-        'personid' => '199211629192',
+        'personid' => 'SE199211629192',
         'desc' => '199211629192: 3.13. Samordningsnummer',
-        'result' => [ '199211629192' ],
+        'result' => [ 'SE199211629192' ],
         'result_entries' => [
             {
-                'sparadress' => qr#{"\(\d+,199211629192,F,,2011-05-06,,,\\"Gatan330 8\\",,,98134,KIRUNA,Sverige,25,84,02,1992-11-02\)"}#,
-                'sparperson' => qr#{"\(\d+,199211629192,2011-05-06,,,Holger,,,Efternamn2849,,,,,1992-11-02,M\)"}#,
-                'spardata' => qr#\(199211629192,N,2011-05-06,2011-05-06\)#,
+                'sparadress' => qr#{"\(\d+,SE199211629192,F,,2011-05-06,,,\\"Gatan330 8\\",,,98134,KIRUNA,Sverige,25,84,02,1992-11-02\)"}#,
+                'sparperson' => qr#{"\(\d+,SE199211629192,2011-05-06,,,Holger,,,Efternamn2849,,,,,1992-11-02,M\)"}#,
+                'spardata' => qr#\(SE199211629192,N,2011-05-06,2011-05-06,[\d: .+"-]+\)#,
             },
         ],
     },
 );
 
 
-plan tests => 4 + @person_tests * 9;
+my $valid = grep { !$$_{'invalid'} } @person_tests;
+my $invalid = grep { $$_{'invalid'} } @person_tests;
+plan tests => 4 + $valid * 9 + $invalid * 1;
 
 my $dbh = DBI->connect("dbi:Pg:dbname=spartest", '', '', {pg_enable_utf8 => 1, PrintError => 0});
 ok(defined $dbh, 'DB Connect');
@@ -207,20 +212,28 @@ ok(
 
 foreach my $qdata ( @person_tests ) {
 
-    my $spar_query = $pg->format_spar_personid_query({
+    my $spar_query;
+    my $spar_query_data = {
         _kundnr                    => $$spar_config{kundnr},
         _orgnr                     => $$spar_config{orgnr},
         _slutanvandarid            => $$spar_config{slutanvandarid},
         _slutanvandarbehorighet    => $$spar_config{slutanvandarbehorighet},
         _slutanvandarsekretessratt => $$spar_config{slutanvandarsekretessratt},
         _personid                  => $$qdata{'personid'},
-    });
+    };
+
+    if($$qdata{'invalid'}) {
+        throws_ok { $spar_query = $pg->format_spar_personid_query($spar_query_data) } qr/ERROR_WTF Invalid PersonId/, 'Catch invalid PersonId';
+        next;
+    } else {
+        $spar_query = $pg->format_spar_personid_query($spar_query_data);
+    }
 
     my $spar_response = $pg->http_post_xml({
-        _url      => $spar_config->{url},
-        _xml      => $spar_query,
-        _certfile =>  getcwd() . '/spar.crt',
-    });
+            _url      => $$spar_config{url},
+            _xml      => $spar_query,
+            _certfile => $$spar_config{cert},
+        });
 
     ok(defined $spar_response, "Query OK $$qdata{'desc'}");
     like($spar_response, qr#http://schemas.xmlsoap.org/soap/envelope/#, "Query is SOAP $$qdata{'desc'}");
@@ -249,7 +262,6 @@ foreach my $qdata ( @person_tests ) {
 
             my $expected = shift @results;
             foreach my $field ( qw(spardata sparperson sparadress) ) {
-                    # FIXME This is strange indeed, where is the root of this?
                 $$rp{$field} = Encode::decode('UTF-8', $$rp{$field});
                 like($$rp{$field}, $$expected{$field}, "Query response $field $$qdata{'desc'}");
             }

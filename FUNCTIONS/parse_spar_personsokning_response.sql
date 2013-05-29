@@ -38,10 +38,11 @@ _NSNames := ARRAY[
 
 FOR _xml1 IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPersonsokningSvar/spako:PersonsokningSvarsPost', _XML, _NSArray)) LOOP
 
-    _spardata.FysiskPersonId                   := (xpath('/spako:PersonsokningSvarsPost/spako:PersonId/spako:FysiskPersonId/text()', _xml1, _NSArray))[1];
+    _spardata.FysiskPersonId                   := 'SE' || (xpath('/spako:PersonsokningSvarsPost/spako:PersonId/spako:FysiskPersonId/text()', _xml1, _NSArray))[1];
     _spardata.Sekretessmarkering               := (xpath('/spako:PersonsokningSvarsPost/spako:Sekretessmarkering/text()', _xml1, _NSArray))[1];
     _spardata.SekretessAndringsdatum           := (xpath('/spako:PersonsokningSvarsPost/spako:SekretessAndringsdatum/text()', _xml1, _NSArray))[1];
     _spardata.SenasteAndringFolkbokforing      := (xpath('/spako:PersonsokningSvarsPost/spako:SenasteAndringFolkbokforing/text()', _xml1, _NSArray))[1];
+    _spardata.datestamp                        := current_timestamp;
 
     FOR _xml2 IN SELECT unnest(xpath('/spako:PersonsokningSvarsPost/spako:Persondetaljer', _xml1, _NSArray)) LOOP
 
@@ -62,6 +63,14 @@ FOR _xml1 IN SELECT unnest(xpath('/soapenv:Envelope/soapenv:Body/spain:SPARPerso
         __.AvregistreringsorsakKod         := (xpath_fragment('/spako:Persondetaljer/spako:AvregistreringsorsakKod/text()', _xml2, _NSNames))[1];
         __.Fodelsetid                      := (xpath_fragment('/spako:Persondetaljer/spako:Fodelsetid/text()', _xml2, _NSNames))[1];
         __.Kon                             := (xpath_fragment('/spako:Persondetaljer/spako:Kon/text()', _xml2, _NSNames))[1];
+
+        IF __.HanvisningspersonNrByttTill IS NOT NULL THEN
+            __.HanvisningspersonNrByttTill := 'SE' || __.HanvisningspersonNrByttTill;
+        END IF;
+
+        IF __.HanvisningspersonNrByttFran IS NOT NULL THEN
+            __.HanvisningspersonNrByttFran := 'SE' || __.HanvisningspersonNrByttFran;
+        END IF;
 
         _sparpersoner := array_append(_sparpersoner, __);
         __ := NULL;

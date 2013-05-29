@@ -13,7 +13,14 @@ DECLARE
 _Identity xml;
 _SOAPBody xml;
 _SOAPEnvelope xml;
+_PersonNummer text;
 BEGIN
+
+IF _PersonId ~ '^SE[0-9]{12}' THEN
+    _PersonNummer := substr(_PersonId, 3, 12);
+ELSE
+    RAISE EXCEPTION 'ERROR_WTF Invalid PersonId %', _PersonId;
+END IF;
 
 SELECT
     *
@@ -36,7 +43,7 @@ _SOAPBody :=    xmlelement(
                     name "spako:PersonId",
                     xmlelement(
                         name "spako:FysiskPersonId",
-                        _PersonId
+                        _PersonNummer
                     )
                 )
             )
