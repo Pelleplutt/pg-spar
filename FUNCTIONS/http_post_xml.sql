@@ -12,9 +12,9 @@ use utf8;
 my ($url,$xml,$cert_file) = @_;
 
 my @headers = (
-        'SOAPAction: ""',
-        'Content-type: text/xml; charset=utf-8'
-        );
+    'SOAPAction: ""',
+    'Content-type: text/xml; charset=utf-8'
+    );
 
 my $ch = new WWW::Curl::Easy;
 $ch->setopt(CURLOPT_HEADER, 0);
