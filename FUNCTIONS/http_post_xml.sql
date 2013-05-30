@@ -1,21 +1,22 @@
 CREATE OR REPLACE FUNCTION HTTP_POST_XML(
         _URL text,
         _XML xml,
-        _CertFile text
-    ) RETURNS xml AS $BODY$
+        _Cert text
+) RETURNS xml AS $BODY$
 
 use strict;
 use warnings;
 use WWW::Curl::Easy;
+use File::Slurp qw(write_file slurp);
+use Digest::SHA1 qw(sha1_hex);
 use utf8;
 
-my ($url,$xml,$cert_file) = @_;
+my ($url,$xml,$cert) = @_;
 
 my @headers = (
     'SOAPAction: ""',
     'Content-type: text/xml; charset=utf-8'
     );
-
 my $ch = new WWW::Curl::Easy;
 $ch->setopt(CURLOPT_HEADER, 0);
 $ch->setopt(CURLOPT_CONNECTTIMEOUT,10);
@@ -27,8 +28,16 @@ $ch->setopt(CURLOPT_NOPROGRESS, 0);
 $ch->setopt(CURLOPT_POSTFIELDS, qq#<?xml version="1.0" encoding="UTF-8"?># . $xml);
 $ch->setopt(CURLOPT_SSL_VERIFYPEER, 1);
 $ch->setopt(CURLOPT_SSL_VERIFYHOST, 2);
-$ch->setopt(CURLOPT_SSLCERT, $cert_file);
-$ch->setopt(CURLOPT_SSLCERTTYPE, "PEM");
+if(defined $cert) {
+    my $certfile_path = '/tmp/' . sha1_hex($cert);
+    unless (-e $certfile_path) {
+        write_file($certfile_path, $cert);
+    }
+    if (-f $certfile_path && sha1_hex(slurp($certfile_path)) eq sha1_hex($cert)) {
+        $ch->setopt(CURLOPT_SSLCERT, $certfile_path);
+        $ch->setopt(CURLOPT_SSLCERTTYPE, "PEM");
+    }
+}
 
 my $response_body;
 
