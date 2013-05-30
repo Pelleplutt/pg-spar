@@ -79,15 +79,15 @@ I also created a small utility function for extracting the selected first name f
 Simple example:
 
     $opsql spartest
-    spartest=# SELECT * FROM Parse_SPAR_PersonSokning_Response(HTTP_POST_XML('https://....', Format_SPAR_PersonID_Query('34908', '3458973489', 'Exempelforetag-458923', 'KATx', 'N', '934873459878'), 'spar.crt'));
+    spartest=# SELECT Parse_SPAR_PersonSokning_Response(HTTP_POST_XML('https://....', Format_SPAR_PersonID_Query('34908', '3458973489', 'Exempelforetag-458923', 'KATx', 'N', '934873459878'), 'spar.crt'));
     parse_spar_personsokning_response
     -----------------------------------
-    {934873459878}
+    {SE194812317401}
     (1 row)
 
-    spartest=# SELECT * FROM Get_SPAR_PersonData('934873459878');
+    spartest=# SELECT Get_SPAR_PersonData('934873459878');
     -[ RECORD 1 ]----------------------------------------------------------------------------------------------------------------------------------------------
-    spardata   | (934873459878,N,2010-02-02,2010-02-02)
-    sparadress | {"(,934873459878,F,,2010-02-02,,,\"Gatan142 8\",,11146,STOCKHOLM,Sverige,01,80,04,2003-01-01)"}
-    sparperson | {"(,934873459878,2010-02-02,,\"Efternamn3542, Fornamn1 Fornamn2\",\"Fornamn1 Fornamn2\",20,\"Fornamn 3\",Efternamn3542,,,,,1993-01-30,K)"}
+    spardata   | (SE194812317401,N,2010-02-02,2010-02-02)
+    sparadress | {"(,SE194812317401,F,,2010-02-02,,,\"Gatan142 8\",,11146,STOCKHOLM,Sverige,01,80,04,2003-01-01)"}
+    sparperson | {"(,SE194812317401,2010-02-02,,\"Efternamn3542, Fornamn1 Fornamn2\",\"Fornamn1 Fornamn2\",20,\"Fornamn 3\",Efternamn3542,,,,,1993-01-30,K)"}
 
