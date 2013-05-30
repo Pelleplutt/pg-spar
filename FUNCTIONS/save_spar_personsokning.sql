@@ -27,7 +27,25 @@ END IF;
 
 FOR _i IN array_lower(SPARAdress, 1) .. array_upper(SPARAdress, 1) LOOP
 
-    INSERT INTO SPARPersonAdress VALUES (
+    INSERT INTO SPARPersonAdress (
+                SPARPersonAdressID,
+                FysiskPersonId,
+                AdressTyp,
+                CareOf,
+                DatumFrom,
+                DatumTom,
+                Utdelningsadress1,
+                Utdelningsadress2,
+                Utdelningsadress3,
+                Lagenhet,
+                PostNr,
+                Postort,
+                Land,
+                FolkbokfordLanKod,
+                FolkbokfordKommunKod,
+                FolkbokfordForsamlingKod,
+                Folkbokforingsdatum
+        ) VALUES (
                 default,
                 SPARAdress[_i].FysiskPersonId,
                 SPARAdress[_i].AdressTyp,
@@ -50,7 +68,23 @@ END LOOP;
 
 FOR _i IN array_lower(SPARPerson, 1) .. array_upper(SPARPerson, 1) LOOP
 
-    INSERT INTO SPARPersonDetaljer VALUES(
+    INSERT INTO SPARPersonDetaljer (
+                SPARPersonDetaljerID,
+                FysiskPersonId,
+                DatumFrom,
+                DatumTom,
+                Aviseringsnamn,
+                Fornamn,
+                Tilltalsnamn,
+                Mellannamn,
+                Efternamn,
+                HanvisningspersonNrByttTill,
+                HanvisningspersonNrByttFran,
+                Avregistreringsdatum,
+                AvregistreringsorsakKod,
+                Fodelsetid,
+                Kon
+    ) VALUES(
                 default,
                 SPARPerson[_i].FysiskPersonId,
                 SPARPerson[_i].DatumFrom,

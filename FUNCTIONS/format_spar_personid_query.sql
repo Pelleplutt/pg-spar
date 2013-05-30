@@ -22,13 +22,7 @@ ELSE
     RAISE EXCEPTION 'ERROR_WTF Invalid PersonId %', _PersonId;
 END IF;
 
-SELECT
-    *
-INTO
-    _Identity
-FROM
-    Format_SPAR_Identity(_KundNr, _OrgNr, _SlutAnvandarId, _SlutAnvandarBehorighet, _SlutAnvandarSekretessRatt);
-
+_Identity := Format_SPAR_Identity(_KundNr, _OrgNr, _SlutAnvandarId, _SlutAnvandarBehorighet, _SlutAnvandarSekretessRatt);
 
 _SOAPBody :=    xmlelement(
             name "spain:SPARPersonsokningFraga",
@@ -49,12 +43,7 @@ _SOAPBody :=    xmlelement(
             )
         );
 
-SELECT
-    *
-INTO
-    _SOAPEnvelope
-FROM
-    Format_SPAR_SOAP_Envelope(_SOAPBody);
+_SOAPEnvelope := Format_SPAR_SOAP_Envelope(_SOAPBody);
 
 RETURN _SOAPEnvelope;
 
