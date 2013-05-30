@@ -69,10 +69,12 @@ It will return an array of personid's as returned from the SPAR system. No id's 
 
 To read up data from the tables use:
 
-- `Get_SPAR_PersonData` 
-
-
+- `Get_SPAR_PersonData`
 - `Get_SPAR_Config`
+
+I also created a small utility function for extracting the selected first name from the list of names (if any). 
+
+- `Get_Person_Firstname`
 
 Simple example:
 
