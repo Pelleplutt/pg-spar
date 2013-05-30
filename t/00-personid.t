@@ -20,7 +20,7 @@ binmode $builder->todo_output,    ":utf8";
 
 my @person_tests = (
     {
-        'personid' => 'SE193701308888',
+        'sokdata' => 'SE193701308888',
         'desc' => '193701308888: 3.1. Förnamn, mellannamn, efternamn, aviseringsnamn, tilltalsnamn',
         'result' => [ 'SE193701308888' ],
         'result_entries' => [
@@ -32,7 +32,7 @@ my @person_tests = (
         ],
     },
     {
-        'personid' => 'SE192907304766',
+        'sokdata' => 'SE192907304766',
         'desc' => '192907304766: 3.2. Folkbokföringsadress',
         'result' => [ 'SE192907304766' ],
         'result_entries' => [
@@ -44,7 +44,7 @@ my @person_tests = (
         ],
     },
     {
-        'personid' => 'SE196805029268',
+        'sokdata' => 'SE196805029268',
         'desc' => '196805029268:3.3. Särskild postadress',
         'result' => [ 'SE196805029268' ],
         'result_entries' => [
@@ -56,7 +56,7 @@ my @person_tests = (
         ],
     },
     {
-        'personid' => 'SE194812161596',
+        'sokdata' => 'SE194812161596',
         'desc' => '194812161596:3.4. Utlandsadress',
         'result' => [ 'SE194812161596' ],
         'result_entries' => [
@@ -68,7 +68,7 @@ my @person_tests = (
         ],
     },
     {
-        'personid' => 'SE197904182396',
+        'sokdata' => 'SE197904182396',
         'desc' => '197904182396: 3.5. Historik',
         'result' => [ 'SE197904182396' ],
         'result_entries' => [
@@ -80,7 +80,7 @@ my @person_tests = (
         ],
     },
     {
-        'personid' => 'SE199111029196',
+        'sokdata' => 'SE199111029196',
         'desc' => '199111029196: 3.6. Hänvisningspersonnummer, bytt från',
         'result' => [ 'SE199111029196' ],
         'result_entries' => [
@@ -92,7 +92,7 @@ my @person_tests = (
         ],
     },
     {
-        'personid' => 'SE199111022399',
+        'sokdata' => 'SE199111022399',
         'desc' => '199111022399: 3.7. Hänvisningspersonnummer, bytt till',
         'result' => [ 'SE199111022399' ],
         'result_entries' => [
@@ -104,7 +104,7 @@ my @person_tests = (
         ],
     },
     {
-        'personid' => 'SE193604139208',
+        'sokdata' => 'SE193604139208',
         'desc' => '193604139208: 3.8. Avregistrerad',
         'result' => [ 'SE193604139208' ],
         'result_entries' => [
@@ -116,7 +116,7 @@ my @person_tests = (
         ],
     },
     {
-        'personid' => 'SE193103249078',
+        'sokdata' => 'SE193103249078',
         'desc' => '193103249078: 3.9. Ingen träff',
         'result' => undef,
         'result_entries' => undef,
@@ -147,20 +147,20 @@ my @person_tests = (
                     # </env:Envelope>
     },
     {
-        'personid' => 'SE193604139207',
+        'sokdata' => 'SE193604139207',
         'desc' => '193604139207: 3.10. Felaktigt personnummer \(felaktig kontrollsiffra\)',
         'result' => undef,
         'result_entries' => undef,
     },
     {
-        'personid' => 'SE19360413920',
+        'sokdata' => 'SE19360413920',
         'desc' => '19360413920: 3.11. Felaktigt personnummer \(fel antal tecken\)',
         'result' => undef,
         'result_entries' => undef,
         'invalid' => 1,
     },
     {
-        'personid' => 'SE197806082397',
+        'sokdata' => 'SE197806082397',
         'desc' => '197806082397: 3.12. Lägenhetsnummer',
         'result' => [ 'SE197806082397' ],
         'result_entries' => [
@@ -172,7 +172,7 @@ my @person_tests = (
         ],
     },
     {
-        'personid' => 'SE199211629192',
+        'sokdata' => 'SE199211629192',
         'desc' => '199211629192: 3.13. Samordningsnummer',
         'result' => [ 'SE199211629192' ],
         'result_entries' => [
@@ -219,7 +219,7 @@ foreach my $qdata ( @person_tests ) {
         _slutanvandarid            => $$spar_config{slutanvandarid},
         _slutanvandarbehorighet    => $$spar_config{slutanvandarbehorighet},
         _slutanvandarsekretessratt => $$spar_config{slutanvandarsekretessratt},
-        _personid                  => $$qdata{'personid'},
+        _personid                  => $$qdata{'sokdata'},
     };
 
     if($$qdata{'invalid'}) {
@@ -232,7 +232,7 @@ foreach my $qdata ( @person_tests ) {
     my $spar_response = $pg->http_post_xml({
             _url      => $$spar_config{url},
             _xml      => $spar_query,
-            _certfile => $$spar_config{cert},
+            _cert     => $$spar_config{cert},
         });
 
     ok(defined $spar_response, "Query OK $$qdata{'desc'}");

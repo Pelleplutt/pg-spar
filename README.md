@@ -41,7 +41,7 @@ This will create an empty database called spartest (and drop it if it exists).
 Run tests
 ---------
 
-    $ perl t/00-test.pl
+    $ perl /usr/bin/prove t
 
 This will run the tests defined in the documentation for querying a single personid in different ways.
 
